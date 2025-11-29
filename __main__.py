@@ -1,12 +1,21 @@
 import torch
 import os
+import argparse
 from pathlib import Path
 from PIL import Image
 from transformers import AutoProcessor, LlavaForConditionalGeneration
 
 
-# Update this path to the folder you want to process
-IMAGE_DIRECTORY = "/home/saltchicken/.local/share/ai-toolkit/datasets/test" 
+parser = argparse.ArgumentParser(description="Batch caption images using JoyCaption.")
+parser.add_argument(
+    "directory", 
+
+    help="Path to the folder containing images to caption"
+)
+args = parser.parse_args()
+
+
+IMAGE_DIRECTORY = args.directory
 
 PROMPT = "Write a long descriptive caption for this image in a formal tone."
 MODEL_NAME = "fancyfeast/llama-joycaption-beta-one-hf-llava"
@@ -25,7 +34,7 @@ VALID_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp', '.bmp', '.tiff'}
 
 dir_path = Path(IMAGE_DIRECTORY)
 if not dir_path.exists():
-    print(f"Error: Directory not found at {IMAGE_DIRECTORY}")
+    print(f"‼️ Error: Directory not found at {IMAGE_DIRECTORY}")
     exit()
 
 print(f"Starting batch processing in: {IMAGE_DIRECTORY}")
@@ -91,6 +100,6 @@ for file_path in dir_path.iterdir():
                 
         except Exception as e:
 
-            print(f"Failed to process {file_path.name}: {e}")
+            print(f"‼️ Failed to process {file_path.name}: {e}")
 
 print("Batch processing complete.")
