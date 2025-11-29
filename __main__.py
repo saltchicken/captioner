@@ -24,7 +24,7 @@ MODEL_NAME = "fancyfeast/llama-joycaption-beta-one-hf-llava"
 # bfloat16 is the native dtype of the LLM used in JoyCaption (Llama 3.1)
 # device_map=0 loads the model into the first GPU
 print(f"Loading model: {MODEL_NAME}...")
-processor = AutoProcessor.from_pretrained(MODEL_NAME, use_fast=False)
+processor = AutoProcessor.from_pretrained(MODEL_NAME, use_fast=True)
 llava_model = LlavaForConditionalGeneration.from_pretrained(MODEL_NAME, torch_dtype="bfloat16", device_map=0)
 llava_model.eval()
 
