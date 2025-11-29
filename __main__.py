@@ -24,7 +24,7 @@ MODEL_NAME = "fancyfeast/llama-joycaption-beta-one-hf-llava"
 # bfloat16 is the native dtype of the LLM used in JoyCaption (Llama 3.1)
 # device_map=0 loads the model into the first GPU
 print(f"Loading model: {MODEL_NAME}...")
-processor = AutoProcessor.from_pretrained(MODEL_NAME)
+processor = AutoProcessor.from_pretrained(MODEL_NAME, use_fast=False)
 llava_model = LlavaForConditionalGeneration.from_pretrained(MODEL_NAME, torch_dtype="bfloat16", device_map=0)
 llava_model.eval()
 
@@ -34,7 +34,7 @@ VALID_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp', '.bmp', '.tiff'}
 
 dir_path = Path(IMAGE_DIRECTORY)
 if not dir_path.exists():
-    print(f"‼️ Error: Directory not found at {IMAGE_DIRECTORY}")
+    print(f"Error: Directory not found at {IMAGE_DIRECTORY}")
     exit()
 
 print(f"Starting batch processing in: {IMAGE_DIRECTORY}")
@@ -100,6 +100,6 @@ for file_path in dir_path.iterdir():
                 
         except Exception as e:
 
-            print(f"‼️ Failed to process {file_path.name}: {e}")
+            print(f"Failed to process {file_path.name}: {e}")
 
 print("Batch processing complete.")
